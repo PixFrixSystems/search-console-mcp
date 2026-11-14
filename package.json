@@ -1,5 +1,5 @@
 {
-  "name": "@pixfrixsystems/search-console-mcp",
+  "name": "@pixfrix/search-console-mcp",
   "version": "0.1.0",
   "description": "MCP server for Google Search Console: search performance, URL inspection, sitemaps and ready-made SEO analysis for AI assistants.",
   "mcpName": "io.github.PixFrixSystems/search-console-mcp",

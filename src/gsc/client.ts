@@ -59,7 +59,7 @@ function isDailyQuota(reason: string | undefined, message: string): boolean {
 function hintFor(status: number, reason: string | undefined, message: string): string | undefined {
   const text = message.toLowerCase();
   if (status === 401) {
-    return 'The credentials were rejected. Run "npx -y @pixfrixsystems/search-console-mcp doctor" to see which credentials are in use, then sign in again with "auth login" or check the service account key.';
+    return 'The credentials were rejected. Run "npx -y @pixfrix/search-console-mcp doctor" to see which credentials are in use, then sign in again with "auth login" or check the service account key.';
   }
   if (status === 403) {
     if (

@@ -31,7 +31,7 @@ Both start the same way.
 7. Point the server at the key:
 
    ```bash
-   GSC_SERVICE_ACCOUNT_KEY=/path/to/key.json npx -y @pixfrixsystems/search-console-mcp doctor
+   GSC_SERVICE_ACCOUNT_KEY=/path/to/key.json npx -y @pixfrix/search-console-mcp doctor
    ```
 
 If key creation is blocked with a message about an organisation policy (`iam.disableServiceAccountKeyCreation`), your Google Workspace administrator has disabled service account keys. Use Option B instead.
@@ -47,14 +47,14 @@ To add a property later, repeat step 5. The server finds it the next time you na
 5. Sign in:
 
    ```bash
-   GSC_OAUTH_CLIENT_FILE=/path/to/client_secret.json npx -y @pixfrixsystems/search-console-mcp auth login
+   GSC_OAUTH_CLIENT_FILE=/path/to/client_secret.json npx -y @pixfrix/search-console-mcp auth login
    ```
 
    Your browser opens. Choose the Google account that has access to Search Console and approve. Because this is your own unverified app, Google shows a "Google hasn't verified this app" notice: choose **Advanced** and continue.
 6. Check the result:
 
    ```bash
-   npx -y @pixfrixsystems/search-console-mcp doctor
+   npx -y @pixfrix/search-console-mcp doctor
    ```
 
 After this the server needs no environment variables for credentials: the sign-in is saved in the config directory (`~/.config/search-console-mcp`, or `%APPDATA%\search-console-mcp` on Windows).
@@ -68,7 +68,7 @@ Google expires sign-ins after seven days for apps in **Testing** status. To make
 The default sign-in is read-only. To use `submit_sitemap` and `delete_sitemap`, sign in again with the write scope and enable the tools:
 
 ```bash
-npx -y @pixfrixsystems/search-console-mcp auth login --write
+npx -y @pixfrix/search-console-mcp auth login --write
 ```
 
 Then set `GSC_ALLOW_WRITE=true` in your MCP client's configuration.
@@ -80,7 +80,7 @@ Run `auth login --no-browser`. The command prints the sign-in address instead of
 ### Sign out
 
 ```bash
-npx -y @pixfrixsystems/search-console-mcp auth logout
+npx -y @pixfrix/search-console-mcp auth logout
 ```
 
 This deletes the saved token. To also revoke the grant on Google's side, remove the app at [myaccount.google.com/connections](https://myaccount.google.com/connections).

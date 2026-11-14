@@ -34,8 +34,8 @@ export interface StoredToken {
 export const NO_CREDENTIALS_HINT = [
   'Pick one of these:',
   '- Service account: set GSC_SERVICE_ACCOUNT_KEY to the path of its JSON key, then add its client_email as a user on each Search Console property.',
-  '- Your own Google account: set GSC_OAUTH_CLIENT_FILE to an OAuth "Desktop app" client secret file and run "npx -y @pixfrixsystems/search-console-mcp auth login" once.',
-  'Run "npx -y @pixfrixsystems/search-console-mcp doctor" to check the result.',
+  '- Your own Google account: set GSC_OAUTH_CLIENT_FILE to an OAuth "Desktop app" client secret file and run "npx -y @pixfrix/search-console-mcp auth login" once.',
+  'Run "npx -y @pixfrix/search-console-mcp doctor" to check the result.',
 ].join('\n');
 
 export function expandHome(path: string): string {

@@ -8,7 +8,7 @@ Open an issue with:
 
 - what you asked the assistant or which tool you called, with its arguments
 - what came back, and what you expected
-- the output of `npx -y @pixfrixsystems/search-console-mcp doctor`
+- the output of `npx -y @pixfrix/search-console-mcp doctor`
 - your MCP client and operating system
 
 Please remove property names, URLs and query data you would rather keep private. Never paste a key, client secret or token.

@@ -1,6 +1,6 @@
 # Search Console MCP
 
-[![npm](https://img.shields.io/npm/v/@pixfrixsystems/search-console-mcp)](https://www.npmjs.com/package/@pixfrixsystems/search-console-mcp)
+[![npm](https://img.shields.io/npm/v/@pixfrix/search-console-mcp)](https://www.npmjs.com/package/@pixfrix/search-console-mcp)
 [![CI](https://github.com/PixFrixSystems/search-console-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/PixFrixSystems/search-console-mcp/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -50,7 +50,7 @@ Both ways are free. The [authentication guide](docs/authentication.md) has every
 **Your own account:** in Google Cloud enable the *Google Search Console API*, create an OAuth client of type *Desktop app*, download its JSON, then run:
 
 ```bash
-GSC_OAUTH_CLIENT_FILE=/path/to/client_secret.json npx -y @pixfrixsystems/search-console-mcp auth login
+GSC_OAUTH_CLIENT_FILE=/path/to/client_secret.json npx -y @pixfrix/search-console-mcp auth login
 ```
 
 ### 2. Add the server to your assistant
@@ -61,7 +61,7 @@ GSC_OAUTH_CLIENT_FILE=/path/to/client_secret.json npx -y @pixfrixsystems/search-
 ```bash
 claude mcp add search-console \
   --env GSC_SERVICE_ACCOUNT_KEY=/path/to/service-account.json \
-  -- npx -y @pixfrixsystems/search-console-mcp
+  -- npx -y @pixfrix/search-console-mcp
 ```
 
 If you signed in with `auth login`, leave out the `--env` line.
@@ -77,7 +77,7 @@ Open *Settings > Developer > Edit Config* and add:
   "mcpServers": {
     "search-console": {
       "command": "npx",
-      "args": ["-y", "@pixfrixsystems/search-console-mcp"],
+      "args": ["-y", "@pixfrix/search-console-mcp"],
       "env": {
         "GSC_SERVICE_ACCOUNT_KEY": "/path/to/service-account.json"
       }
@@ -99,7 +99,7 @@ Add to `~/.cursor/mcp.json` (or `.cursor/mcp.json` in a project):
   "mcpServers": {
     "search-console": {
       "command": "npx",
-      "args": ["-y", "@pixfrixsystems/search-console-mcp"],
+      "args": ["-y", "@pixfrix/search-console-mcp"],
       "env": {
         "GSC_SERVICE_ACCOUNT_KEY": "/path/to/service-account.json"
       }
@@ -120,7 +120,7 @@ Add to `.vscode/mcp.json`:
     "search-console": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@pixfrixsystems/search-console-mcp"],
+      "args": ["-y", "@pixfrix/search-console-mcp"],
       "env": {
         "GSC_SERVICE_ACCOUNT_KEY": "/path/to/service-account.json"
       }
@@ -133,15 +133,15 @@ Add to `.vscode/mcp.json`:
 <details>
 <summary><b>Any other MCP client</b></summary>
 
-The server speaks MCP over stdio. Run `npx -y @pixfrixsystems/search-console-mcp` as the command and pass the environment variables from [Configuration](#configuration).
+The server speaks MCP over stdio. Run `npx -y @pixfrix/search-console-mcp` as the command and pass the environment variables from [Configuration](#configuration).
 </details>
 
-On Windows, use forward slashes or doubled backslashes in JSON paths (`C:/keys/gsc.json`). If your client cannot start `npx` directly, use `"command": "cmd"` with `"args": ["/c", "npx", "-y", "@pixfrixsystems/search-console-mcp"]`.
+On Windows, use forward slashes or doubled backslashes in JSON paths (`C:/keys/gsc.json`). If your client cannot start `npx` directly, use `"command": "cmd"` with `"args": ["/c", "npx", "-y", "@pixfrix/search-console-mcp"]`.
 
 ### 3. Check that it works
 
 ```bash
-GSC_SERVICE_ACCOUNT_KEY=/path/to/service-account.json npx -y @pixfrixsystems/search-console-mcp doctor
+GSC_SERVICE_ACCOUNT_KEY=/path/to/service-account.json npx -y @pixfrix/search-console-mcp doctor
 ```
 
 ```
