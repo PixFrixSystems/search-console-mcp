@@ -1,0 +1,67 @@
+{
+  "name": "@pixfrixsystems/search-console-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Google Search Console: search performance, URL inspection, sitemaps and ready-made SEO analysis for AI assistants.",
+  "mcpName": "io.github.PixFrixSystems/search-console-mcp",
+  "type": "module",
+  "bin": {
+    "search-console-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm run build && npm run test",
+    "docs:tools": "npm run build && node scripts/generate-tool-docs.mjs",
+    "live-check": "npm run build && node scripts/live-check.mjs",
+    "prepublishOnly": "npm run check"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "google-search-console",
+    "search-console",
+    "gsc",
+    "seo",
+    "seo-automation",
+    "keyword-research",
+    "url-inspection",
+    "claude",
+    "ai-agents"
+  ],
+  "license": "MIT",
+  "author": "PixFrix (https://pixfrix.gr)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PixFrixSystems/search-console-mcp.git"
+  },
+  "homepage": "https://github.com/PixFrixSystems/search-console-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/PixFrixSystems/search-console-mcp/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.4.0",
+    "google-auth-library": "^11.3.4",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "^2.4.0",
+    "@types/node": "^24.0.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

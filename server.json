@@ -1,0 +1,58 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.PixFrixSystems/search-console-mcp",
+  "title": "Google Search Console",
+  "description": "Google Search Console data and SEO analysis: performance, quick wins, indexing and sitemaps.",
+  "repository": {
+    "url": "https://github.com/PixFrixSystems/search-console-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@pixfrixsystems/search-console-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "GSC_SERVICE_ACCOUNT_KEY",
+          "description": "Path to a Google service account JSON key. Not needed after signing in with 'auth login'.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "GSC_SERVICE_ACCOUNT_JSON",
+          "description": "The service account JSON key itself, as a string, for hosts without a file system.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "GSC_SITE_URL",
+          "description": "Default Search Console property, for example sc-domain:example.com.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "GSC_BRAND_TERMS",
+          "description": "Comma-separated brand names, used to separate branded from non-branded search.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "GSC_ALLOW_WRITE",
+          "description": "Set to true to enable the tools that submit and remove sitemaps.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}

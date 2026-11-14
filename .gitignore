@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+*.tgz
+*.mcpb
+.env
+.env.*
+
+# Never commit Google credentials
+*service-account*.json
+*service_account*.json
+client_secret*.json
+token.json
