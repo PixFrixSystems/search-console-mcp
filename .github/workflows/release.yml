@@ -2,11 +2,15 @@ name: Release
 
 # Publishes to npm and then to the MCP Registry when a version tag is pushed:
 #   npm version patch && git push --follow-tags
-# Needs one repository secret: NPM_TOKEN (an npm automation token with publish rights to the scope).
+# Needs one repository secret: NPM_TOKEN (an npm token that can publish to the @pixfrix scope).
+#
+# It can also be started by hand (Actions > Release > Run workflow) to finish a release that
+# stopped half way. A version that is already on npm is not published again.
 
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -28,26 +32,53 @@ jobs:
 
       - run: npm ci
 
-      - name: Check that the tag matches package.json and server.json
+      - name: Check that the versions agree
         run: |
           set -euo pipefail
-          tag="${GITHUB_REF_NAME#v}"
           package="$(node -p "require('./package.json').version")"
           server="$(node -p "require('./server.json').version")"
           bundled="$(node -p "require('./server.json').packages[0].version")"
+          # On a tag push the tag decides the version; on a manual run package.json does.
+          expected="$package"
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then expected="${GITHUB_REF_NAME#v}"; fi
           for found in "$package" "$server" "$bundled"; do
-            if [ "$found" != "$tag" ]; then
-              echo "Version mismatch: tag $tag, package.json $package, server.json $server / $bundled" >&2
+            if [ "$found" != "$expected" ]; then
+              echo "Version mismatch: expected $expected, package.json $package, server.json $server / $bundled" >&2
               exit 1
             fi
           done
+          name="$(node -p "require('./package.json').name")"
+          echo "PACKAGE_URL=https://registry.npmjs.org/${name/\//%2f}/$package" >> "$GITHUB_ENV"
+          echo "PACKAGE_ID=$name@$package" >> "$GITHUB_ENV"
 
       - run: npm run check
 
       - name: Publish to npm
-        run: npm publish --access public --provenance
+        run: |
+          set -euo pipefail
+          if [ "$(curl --silent --output /dev/null --write-out '%{http_code}' "$PACKAGE_URL")" = "200" ]; then
+            echo "$PACKAGE_ID is already on npm; not publishing it again."
+          else
+            npm publish --access public --provenance
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # npm accepts a new version at once but only serves it after processing it for a few minutes.
+      # The MCP Registry looks the package up on npm before it accepts a listing, so publishing there
+      # straight away fails with "NPM package not found".
+      - name: Wait until npm serves the new version
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 80); do
+            if [ "$(curl --silent --output /dev/null --write-out '%{http_code}' "$PACKAGE_URL")" = "200" ]; then
+              echo "$PACKAGE_ID is available on npm."
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "$PACKAGE_ID was not available on npm after 20 minutes." >&2
+          exit 1
 
       - name: Install cosign
         uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
