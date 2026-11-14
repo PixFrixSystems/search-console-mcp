@@ -49,6 +49,7 @@ jobs:
           done
           name="$(node -p "require('./package.json').name")"
           echo "PACKAGE_URL=https://registry.npmjs.org/${name/\//%2f}/$package" >> "$GITHUB_ENV"
+          echo "TARBALL_URL=https://registry.npmjs.org/$name/-/${name#*/}-$package.tgz" >> "$GITHUB_ENV"
           echo "PACKAGE_ID=$name@$package" >> "$GITHUB_ENV"
 
       - run: npm run check
@@ -64,20 +65,22 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # npm accepts a new version at once but only serves it after processing it for a few minutes.
-      # The MCP Registry looks the package up on npm before it accepts a listing, so publishing there
-      # straight away fails with "NPM package not found".
+      # npm accepts a new version at once but only serves it after processing it for several minutes.
+      # The version details appear first and the download last, so wait for the download: until then
+      # nobody can install it, and the MCP Registry, which looks the package up on npm, refuses the
+      # listing with "NPM package not found".
       - name: Wait until npm serves the new version
         run: |
           set -euo pipefail
-          for attempt in $(seq 1 80); do
-            if [ "$(curl --silent --output /dev/null --write-out '%{http_code}' "$PACKAGE_URL")" = "200" ]; then
-              echo "$PACKAGE_ID is available on npm."
+          status() { curl --silent --output /dev/null --write-out '%{http_code}' "$1"; }
+          for attempt in $(seq 1 120); do
+            if [ "$(status "$PACKAGE_URL")" = "200" ] && [ "$(status "$TARBALL_URL")" = "200" ]; then
+              echo "$PACKAGE_ID can be installed from npm."
               exit 0
             fi
             sleep 15
           done
-          echo "$PACKAGE_ID was not available on npm after 20 minutes." >&2
+          echo "$PACKAGE_ID could not be installed from npm after 30 minutes." >&2
           exit 1
 
       - name: Install cosign
